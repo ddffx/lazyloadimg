@@ -1,4 +1,5 @@
-/* lazyload.js (c) Lorenzo Giuliani
+/* http://css-tricks.com/snippets/javascript/lazy-loading-images/
+ *lazyload.js (c) Lorenzo Giuliani
  * MIT License (http://www.opensource.org/licenses/mit-license.html)
  *
  * expects a list of:  
@@ -7,44 +8,42 @@
  Polyfill Available here: 
  */
 
-!function(window){
-  var $q = function(q, res){
-        if (document.querySelectorAll) {
-          res = document.querySelectorAll(q);
-        } else {
-          var d=document
-            , a=d.styleSheets[0] || d.createStyleSheet();
-          a.addRule(q,'f:b');
-          for(var l=d.all,b=0,c=[],f=l.length;b<f;b++)
-            l[b].currentStyle.f && c.push(l[b]);
+! function(window) {
+  var $q = function(q, res) {
+    if (document.querySelectorAll) {
+      res = document.querySelectorAll(q);
+    } else {
+      var d = document,
+        a = d.styleSheets[0] || d.createStyleSheet();
+      a.addRule(q, 'f:b');
+      for (var l = d.all, b = 0, c = [], f = l.length; b < f; b++)
+        l[b].currentStyle.f && c.push(l[b]);
 
-          a.removeRule(0);
-          res = c;
-        }
-        return res;
-      }
-    , addEventListener = function(evt, fn){
-        window.addEventListener
-          ? this.addEventListener(evt, fn, false)
-          : (window.attachEvent)
-            ? this.attachEvent('on' + evt, fn)
-            : this['on' + evt] = fn;
-      }
-    , _has = function(obj, key) {
-        return Object.prototype.hasOwnProperty.call(obj, key);
-      }
-    ;
+      a.removeRule(0);
+      res = c;
+    }
+    return res;
+  }, addEventListener = function(evt, fn) {
+      window.addEventListener ? this.addEventListener(evt, fn, false) : (window.attachEvent) ? this.attachEvent('on' + evt, fn) : this['on' + evt] = fn;
+    }, _has = function(obj, key) {
+      return Object.prototype.hasOwnProperty.call(obj, key);
+    };
 
-  function loadImage (el, fn) {
-    var img = new Image()
-      , src = el.getAttribute('data-src');
-    img.onload = function() {
-      if (!! el.parent)
+  function loadImage(el, index, fn) {
+    var img = new Image(),
+      src = el.getAttribute('data-src');
+    img.onload = function(e, i) {
+
+      if ( !! el.parent) {
+        console.log('if block');
         el.parent.replaceChild(img, el)
-      else
+      } else {
+        console.log('else block');
         el.src = src;
+      }
 
-      fn? fn() : null;
+      //console.log(arguments);
+      fn ? fn(index) : null;
     }
     img.src = src;
   }
@@ -53,41 +52,61 @@
     var rect = el.getBoundingClientRect()
 
     return (
-       rect.top    >= 0
-    && rect.left   >= 0
-    && rect.top <= (window.innerHeight || document.documentElement.clientHeight)
-    )
+      rect.top >= 0 && rect.left >= 0 && rect.top <= (window.innerHeight || document.documentElement.clientHeight))
   }
 
-    var images = new Array()
-      , query = $q('img.lazy')
-      , ticking = false
-      , processScroll = function(){
-          for (var i = 0; i < images.length; i++) {
-            if (elementInViewport(images[i])) {
-              loadImage(images[i], function () {
-                images.splice(i, i);
-              });
-            }
-          };
-        }
-      , onScroll = function(){
-          requestTick();
-        }
-      , requestTick = function(){
-          if(!ticking) {
-            requestAnimationFrame(processScroll);
-            ticking = true;
+  var images = new Array(),
+    query = $q('img.lazy'),
+    ticking = false,
+    processScroll = function() {
+      ticking = true;
+      console.log("ticking true");
+      //console.log(images);
+      for (var i = 0; i < images.length; i++) {
+
+        if (elementInViewport(images[i].img)) {
+          
+          if(!images[i].loaded && !images[i].loading){
+            images[i].loading = true;
+            console.log("image "+ i+" loading");
+            loadImage(images[i].img, i, function(index) {
+              console.log("called for image: " + index);
+              //images.splice(index,index);
+              images[index].loaded = true;
+              images[index].loading = false;
+              console.log("image "+ index +" loaded");
+              //console.log(images);
+            });
           }
+          
         }
-      ;
- 
-    // Array.prototype.slice.call is not callable under our lovely IE8 
-    for (var i = 0; i < query.length; i++) {
-      images.push(query[i]);
+      };
+      ticking = false;
+      console.log("ticking false");
+    }, onScroll = function() {
+      requestTick();
+    }, requestTick = function() {
+      //console.log(arguments);
+      //console.log(ticking);
+      if (!ticking) {
+        console.log("rAF called");
+        requestAnimationFrame(processScroll);
+
+      }
     };
 
-    processScroll();
-    addEventListener('scroll',processScroll);
+  // Array.prototype.slice.call is not callable under our lovely IE8 
+  //console.log(query);
+  for (var i = 0; i < query.length; i++) {
+    images.push({
+      img: query[i],
+      loaded: false,
+      loading: false
+    });
+    //images.push(query[i]);
+  };
+  console.log(images);
+  onScroll();
+  addEventListener('scroll', onScroll);
 
 }(this);
