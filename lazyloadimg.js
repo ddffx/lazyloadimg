@@ -1,11 +1,14 @@
-/* http://css-tricks.com/snippets/javascript/lazy-loading-images/
- *lazyload.js (c) Lorenzo Giuliani
+/* 
+ * Lazy Loading Images using requestAnimationFrame
+ * Based on http://css-tricks.com/snippets/javascript/lazy-loading-images/
+ * & http://www.html5rocks.com/en/tutorials/speed/animations/
+ * lazyloadimg.js (c) Deb Das
  * MIT License (http://www.opensource.org/licenses/mit-license.html)
  *
- * expects a list of:  
- * `<img src="blank.gif" data-src="my_image.png" width="600" height="400" class="lazy">`
- With RequestAnimationFrame
- Polyfill Available here: 
+ * Expects a list of containers span or div like:  
+ * `<span class="lazy" data-img-src="image_src_url"></span>`
+ * Class lazy is required
+ * rAF polyfil available here: https://gist.github.com/paulirish/1579671
  */
 
 (function(window) {
