@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Demo: Image Lazy Loading With RAF</title>
+<link rel="stylesheet" href="lazyloadimg.css" />
+	
+</head>
+<body>
+  <h1>Lazy Loading Images</h1>
+
+  	<p>Scroll down...</p>
+		
+		<div class="zone">
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/1"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/2"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/3"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/4"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/5"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/6"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/7"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/8"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/9"></span>
+			<span class="img-container lazy" data-img-src="http://lorempixel.com/400/200/sports/10"></span>
+			
+			<noscript>
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/1">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/2">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/3">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/4">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/5">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/6">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/7">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/8">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/9">
+				<img src="" alt="" class="lazy" width="400" height="200" data-img-src="http://lorempixel.com/400/200/sports/10">
+			</noscript>
+		</div>
+	
+	<script src="rAF.js"></script>
+  	<script src="lazyloadimg.js"></script>
+</body>
+</html>

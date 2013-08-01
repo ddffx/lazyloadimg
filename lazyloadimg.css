@@ -1,4 +1,7 @@
-.zone img {
-  			margin: 200px 0;
-				display: block;
-		}
+
+.zone .img-container{
+	margin: 200px 0;
+	display: block;
+	width:400px;
+	height:200px;
+}
