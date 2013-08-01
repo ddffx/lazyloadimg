@@ -57,8 +57,7 @@
     ticking = false,
     processScroll = function() {
       ticking = true;
-      //console.log("ticking true");
-      //console.log(images);
+      
       for (var i = 0; i < img_containers.length; i++) {
           var el = img_containers[i].item;
         if (elementInViewport(el)) {
@@ -67,26 +66,26 @@
             el.loading = true;
             console.log("image "+ i+" loading");
             loadImage(el, i, function(index) {
+              
               console.log("called for image: " + index);
-              //images.splice(index,index);
+              
               img_containers[index].loaded = true;
               img_containers[index].loading = false;
               console.log("image "+ index +" loaded");
-              //console.log(images);
+              
             });
           }
           
         }
       };
       ticking = false;
-      //console.log("ticking false");
+      
     }, 
     onScroll = function() {
       requestTick();
     }, 
     requestTick = function() {
-      //console.log(arguments);
-      //console.log(ticking);
+     
       if (!ticking) {
         console.log("rAF called");
         requestAnimationFrame(processScroll);
@@ -94,18 +93,16 @@
       }
     };
 
-  // Array.prototype.slice.call is not callable under our lovely IE8 
-  //console.log(query);
+  
   for (var i = 0; i < query.length; i++) {
     img_containers.push({
       item: query[i],
       loaded: false,
       loading: false
     });
-    //images.push(query[i]);
+    
   };
-  //console.log(images);
-  //onScroll();
+  
   processScroll();
   addEventListener('scroll', onScroll);
 
